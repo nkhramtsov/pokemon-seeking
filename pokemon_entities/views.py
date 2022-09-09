@@ -86,7 +86,7 @@ def show_pokemon(request, pokemon_id):
         }
 
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
-    for pokemon_entity in PokemonEntity.objects.filter(pokemon=requested_pokemon):
+    for pokemon_entity in requested_pokemon.pokemonentities.all():
         add_pokemon(
             folium_map,
             pokemon_entity.lat,
