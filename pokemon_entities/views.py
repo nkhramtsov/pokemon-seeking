@@ -7,6 +7,7 @@ from django.shortcuts import render
 from django.utils.timezone import localtime
 from .models import Pokemon, PokemonEntity
 from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import get_object_or_404
 
 MOSCOW_CENTER = [55.751244, 37.618423]
 DEFAULT_IMAGE_URL = (
@@ -58,10 +59,8 @@ def show_all_pokemons(request):
 
 
 def show_pokemon(request, pokemon_id):
-    try:
-        requested_pokemon = Pokemon.objects.get(id=pokemon_id)
-    except ObjectDoesNotExist:
-        return HttpResponseNotFound('<h1>Такой покемон не найден</h1>')
+
+    requested_pokemon = get_object_or_404(Pokemon, id=pokemon_id)
 
     pokemon = {
         'title_ru': requested_pokemon.title,
@@ -78,7 +77,7 @@ def show_pokemon(request, pokemon_id):
             'img_url': request.build_absolute_uri(requested_pokemon.previous_evolution.image.url)
         }
 
-    pokemon_next_evolution = requested_pokemon.next_evolution.first()
+    pokemon_next_evolution = requested_pokemon.next_evolutions.first()
     if pokemon_next_evolution:
         pokemon['next_evolution'] = {
             'title_ru': pokemon_next_evolution.title,
