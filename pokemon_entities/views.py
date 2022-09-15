@@ -58,7 +58,7 @@ def show_all_pokemons(request):
 
 def show_pokemon(request, pokemon_id):
     requested_pokemon = get_object_or_404(Pokemon, id=pokemon_id)
-    requested_pokemon_entities = list(requested_pokemon.pokemonentities.all())
+    requested_pokemon_entities = list(requested_pokemon.entities.all())
 
     serialized_pokemon = {
         'title_ru': requested_pokemon.title,
